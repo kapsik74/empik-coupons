@@ -1,0 +1,109 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-coupons-table
+      author: michal.kaps
+      changes:
+        - createTable:
+            tableName: coupons
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_coupons
+              - column:
+                  name: code
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+                    unique: true
+                    uniqueConstraintName: uq_coupon_code
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  defaultValue: now()
+                  constraints:
+                    nullable: false
+              - column:
+                  name: max_uses
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: current_uses
+                  type: integer
+                  defaultValue: 0
+                  constraints:
+                    nullable: false
+              - column:
+                  name: country_code
+                  type: VARCHAR(2)
+                  constraints:
+                    nullable: false
+        - createIndex:
+            tableName: coupons
+            indexName: idx_coupon_code
+            columns:
+              - column:
+                  name: code
+        - sqlFile:
+            encoding: UTF-8
+            path: ./changes/001-add-coupons-constraints.sql
+            relativeToChangelogFile: true
+  - changeSet:
+      id: 002-create-coupon_usages-table
+      author: michal.kaps
+      changes:
+        - createTable:
+            tableName: coupon_usages
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_coupon_usages
+              - column:
+                  name: coupon_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_coupon_usages_coupon
+                    referencedTableName: coupons
+                    referencedColumnNames: id
+              - column:
+                  name: user_id
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: used_at
+                  type: TIMESTAMP
+                  defaultValue: now()
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_ip
+                  type: VARCHAR(45)
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            columnNames: coupon_id, user_id
+            constraintName: uq_coupon_user
+            tableName: coupon_usages
+
+        - createIndex:
+            tableName: coupon_usages
+            indexName: idx_usage_coupon_id
+            columns:
+              - column:
+                  name: coupon_id
+        - createIndex:
+            tableName: coupon_usages
+            indexName: idx_usage_user_id
+            columns:
+              - column:
+                  name: user_id

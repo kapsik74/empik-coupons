@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/coupon_db
+    username: coupon_user
+    password: coupon_pass
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+  threads:
+    virtual:
+      enabled: true
+
+geolocation:
+  base-url: http://ip-api.com
+  connect-timeout-seconds: 5
+  read-timeout-seconds: 5
+
+  application:
+    name: empik-coupons-03
+
+server: 8080
