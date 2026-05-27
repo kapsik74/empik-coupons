@@ -60,7 +60,7 @@ public class CouponControllerIntegrationTest extends BaseIntegrationTest {
         @DisplayName("should create coupon and return 201 with coupon details")
         void shouldCreateCoupon() throws Exception {
             //given
-            CreateCouponRequest request = new CreateCouponRequest("SPRING2024", 100, "PL");
+            CreateCouponRequest request = new CreateCouponRequest("SPRING2026", 100, "PL");
 
             //when
             MvcResult result = mockMvc.perform(post(COUPONS_URL)
@@ -73,7 +73,7 @@ public class CouponControllerIntegrationTest extends BaseIntegrationTest {
             String json = result.getResponse().getContentAsString();
             CreateCouponResponse response = objectMapper.readValue(json, CreateCouponResponse.class);
 
-            assertThat(response.code()).isEqualTo("SPRING2024");
+            assertThat(response.code()).isEqualTo("SPRING2026");
             assertThat(response.maxUses()).isEqualTo(100);
             assertThat(response.currentUses()).isEqualTo(0);
             assertThat(response.countryCode()).isEqualTo("PL");
@@ -105,8 +105,8 @@ public class CouponControllerIntegrationTest extends BaseIntegrationTest {
         @DisplayName("should return 409 when coupon code already exists (case-insensitive)")
         void shouldReturn409WhenCodeDuplicate() throws Exception {
             //given
-            CreateCouponRequest first = new CreateCouponRequest("SUMMER2024", 10, "DE");
-            CreateCouponRequest duplicate = new CreateCouponRequest("summer2024", 20, "DE");
+            CreateCouponRequest first = new CreateCouponRequest("SOMMER2026", 10, "DE");
+            CreateCouponRequest duplicate = new CreateCouponRequest("sommer2026", 20, "DE");
 
             //when & then
             mockMvc.perform(post(COUPONS_URL)
@@ -186,17 +186,17 @@ public class CouponControllerIntegrationTest extends BaseIntegrationTest {
         @DisplayName("should use coupon with lowercase code (case-insensitive)")
         void shouldUseCouponCaseInsensitive() throws Exception {
             //given
-            createCoupon("AUTUMN2024", 5, "GB");
+            createCoupon("AUTUMN2025", 5, "GB");
             given(geoLocationService.getCountryCode(anyString())).willReturn("GB");
 
             //when & then
-            mockMvc.perform(post(COUPONS_URL + "/autumn2024/use")
+            mockMvc.perform(post(COUPONS_URL + "/autumn2025/use")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content("""
                                     {"userId": "user1"}
                                     """))
                     .andExpect(status().isOk())
-                    .andExpect(jsonPath("$.code").value("AUTUMN2024"));
+                    .andExpect(jsonPath("$.code").value("AUTUMN2025"));
         }
 
         @Test
