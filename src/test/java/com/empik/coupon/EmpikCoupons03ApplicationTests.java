@@ -1,13 +1,10 @@
 package com.empik.coupon;
 
+import com.empik.coupon.api.BaseIntegrationTest;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
 
-@SpringBootTest
-@ActiveProfiles("test")
-class EmpikCoupons03ApplicationTests {
+class EmpikCoupons03ApplicationTests extends BaseIntegrationTest {
 
     @Test
     void contextLoads() {

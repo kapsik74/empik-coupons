@@ -22,4 +22,5 @@ geolocation:
   application:
     name: empik-coupons-03
 
-server: 8080
+server:
+  port: 8080

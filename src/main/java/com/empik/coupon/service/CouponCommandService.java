@@ -15,6 +15,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -33,7 +35,8 @@ public class CouponCommandService {
         CouponEntity coupon = new CouponEntity();
         coupon.setCode(normalizedCode);
         coupon.setMaxUses(request.maxUses());
-        coupon.setCountryCode(request.countryCode());
+        coupon.setCountryCode(request.countryCode().toUpperCase());
+        coupon.setCreatedAt(LocalDateTime.now());
         CouponEntity saved = couponRepository.save(coupon);
 
         return CreateCouponResponse.from(saved);
@@ -59,6 +62,7 @@ public class CouponCommandService {
         usage.setCoupon(coupon);
         usage.setUserId(userId);
         usage.setUserIp(userIp);
+        usage.setUsedAt(LocalDateTime.now());
 
         couponUsageRepository.save(usage);
 
