@@ -4,11 +4,11 @@ import java.time.LocalDateTime;
 
 public record ErrorResponse(
         int status,
-        String error,
+        CouponErrorCode error,
         String message,
         LocalDateTime timestamp
 ) {
-    public static ErrorResponse of(int status, String error, String message) {
+    public static ErrorResponse of(int status, CouponErrorCode error, String message) {
         return new ErrorResponse(status, error, message, LocalDateTime.now());
     }
 }

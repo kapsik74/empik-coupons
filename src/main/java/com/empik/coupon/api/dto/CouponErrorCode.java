@@ -1,0 +1,12 @@
+package com.empik.coupon.api.dto;
+
+public enum CouponErrorCode {
+    COUPON_NOT_FOUND,
+    COUPON_EXHAUSTED,
+    COUPON_ALREADY_USED,
+    COUNTRY_NOT_ALLOWED,
+    COUPON_CODE_DUPLICATE,
+    GEO_LOCATION_UNAVAILABLE,
+    VALIDATION_FAILED,
+    INTERNAL_ERROR
+}
